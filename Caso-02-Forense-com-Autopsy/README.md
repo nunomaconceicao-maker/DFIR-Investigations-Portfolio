@@ -13,7 +13,7 @@ Para contornar limitações de licenciamento de ferramentas comerciais em ambien
 
 ## 🛠️ Ferramentas Utilizadas
 * **Plataforma Forense:** Autopsy (Open-Source)
-* **Tipo de Evidência:** Imagem Forense (`Windows_Evidence_001.dd`)
+* **Tipo de Evidência:** Imagem Forense (`Evidence_001.dd`)
 * **Ambiente:** Máquina Virtual Windows (Isolada)
 
 ---
