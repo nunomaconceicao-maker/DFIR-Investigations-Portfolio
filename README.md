@@ -1,0 +1,18 @@
+# 🛡️ Portefólio de Investigação Forense e Resposta a Incidentes (DFIR)
+
+Bem-vindo ao meu repositório central de Cibersegurança. Este espaço é dedicado à documentação de simulações práticas, exercícios de laboratório e estudos de caso focados em **Digital Forensics**, **Incident Response** e **Análise SOC**.
+
+## 📂 Casos Investigados e Metodologias
+
+Abaixo encontram-se os laboratórios práticos concluídos. Cada estudo de caso contém a metodologia detalhada, os fluxogramas de decisão técnica e os resultados da investigação.
+
+* 🔍 **[Estudo de Caso 1: Ameaça Interna, Ocultação de Dados e Triagem de Malware](./Caso-01-Ameaca-Interna/README.md)**
+  * *Técnicas:* Recuperação de blocos não alocados, validação de integridade (Hashes MD5/HMAC) e OSINT.
+  * *Cenário:* Fraude financeira e destruição intencional de provas (Shift+Del).
+
+* 🔍 **[Estudo de Caso 2: Processamento Forense e Cadeia de Custódia com Autopsy](./Caso-02-Forense-com-Autopsy/README.md)**
+  * *Técnicas:* Ingestão de imagens `.dd`, Data Carving, Análise Hexadecimal (Magic Numbers) e Tagging.
+  * *Cenário:* Análise de imagem Raw em ambiente estanque para extração legal de provas.
+
+---
+*Construído com foco na adoção de boas práticas da indústria e standards de investigação digital.*
