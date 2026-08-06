@@ -14,5 +14,9 @@ Abaixo encontram-se os laboratórios práticos concluídos. Cada estudo de caso 
   * *Técnicas:* Ingestão de imagens `.dd`, Data Carving, Análise Hexadecimal (Magic Numbers) e Tagging.
   * *Cenário:* Análise de imagem Raw em ambiente estanque para extração legal de provas.
 
+* 🔍 **[Estudo de Caso 3: Aquisição Forense e Preservação de Evidências (Bit-by-Bit)](./Caso-03-Aquisicao-Imagem-Bit-a-Bit/README.md)**
+  * *Técnicas:* Cópia Bit-a-Bit, Captura de Slack Space e Unallocated Space.
+  * *Cenário:* Isolamento e duplicação da evidência antes da intervenção técnica para preservar a cadeia de custódia.
+
 ---
 *Construído com foco na adoção de boas práticas da indústria e standards de investigação digital.*
