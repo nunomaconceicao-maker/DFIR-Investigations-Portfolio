@@ -17,6 +17,12 @@ Abaixo encontram-se os laboratórios práticos concluídos. Cada estudo de caso 
 * 🔍 **[Estudo de Caso 3: Aquisição Forense e Preservação de Evidências (Bit-by-Bit)](./Caso-03-Aquisicao-Imagem-Bit-a-Bit/README.md)**
   * *Técnicas:* Cópia Bit-a-Bit, Captura de Slack Space e Unallocated Space.
   * *Cenário:* Isolamento e duplicação da evidência antes da intervenção técnica para preservar a cadeia de custódia.
+ 
+## 📂 Compreensão e Análise de Sistemas de Ficheiros
+
+* 🔍 **[Estudo de Caso 1: Análise de Sistema de Ficheiros Linux com Autopsy](./Sistemas-Ficheiros/Caso-01-Analise-Linux-Autopsy/README.md)**
+  * *Técnicas:* Estrutura Linux, Análise `/etc/passwd`, Extração de Metadados e Cálculo de Hash MD5.
+  * *Cenário:* Investigação a um colaborador suspeito de exfiltração de dados num ambiente Linux.
 
 ---
 *Construído com foco na adoção de boas práticas da indústria e standards de investigação digital.*
