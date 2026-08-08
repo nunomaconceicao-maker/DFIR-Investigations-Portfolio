@@ -32,6 +32,10 @@ A triagem focou-se nos documentos com maior probabilidade de manipulação ou ex
 * Foi localizado e isolado um artefacto de interesse (`Relatorio_Auditoria_Q3.xls`, suspeito de conter informação organizacional sensível) no percurso `/home/j.silva/Documents/`.
 * Procedeu-se à extração imediata da sua assinatura digital (*Hash* MD5) e à documentação das datas de Criação, Modificação e Acesso (MAC times) através da análise de *File Metadata*. Este rigor processual garante a imutabilidade matemática da prova recolhida, essencial para suportar qualquer futura ação disciplinar ou processo judicial sem risco de repúdio.
 
+### Fase 4: Data Carving Avançado com Editor Hexadecimal
+Para garantir a exaustão da recolha de provas, o processo de resposta foi complementado com análise de baixo nível utilizando o **WinHex**:
+* Foi executada uma operação de *Data Carving* isolada ao ficheiro de imagem, varrendo os setores do disco em busca de assinaturas de cabeçalhos de ficheiros (*Magic Numbers*).
+* A técnica *File Recovery by Type* permitiu ignorar a tabela de alocação corrompida e resgatar imagens (capturas de ecrã exfiltradas) diretamente do espaço não alocado (*Unallocated Space*), exportando-as de forma segura para uma diretoria de custódia.
 ---
 
 ## 💡 Parecer Técnico e Lições Retiradas
