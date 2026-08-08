@@ -28,5 +28,7 @@ Abaixo encontram-se os laboratórios práticos concluídos. Cada estudo de caso 
   * *Técnicas:* Linha de Comandos (The Sleuth Kit), Interrogação da MFT (`istat`), Deteção de Evasão e Data Carving (`fls`, `tsk_recover`).
   * *Cenário:* Triagem e recuperação de ficheiros intencionalmente eliminados num sistema Windows através de interrogação direta de baixo nível.
 
+### 🔒 Aquisição e Duplicação de Dados
+* 💾 **[Caso 01: Aquisição Física e Duplicação Forense Bit-a-Bit (dd CLI)](./Modulo-04-Aquisicao-Duplicacao/Caso-01-Aquisicao-Fisica-DD/README.md)**
 ---
 *Construído com foco na adoção de boas práticas da indústria e standards de investigação digital.*
