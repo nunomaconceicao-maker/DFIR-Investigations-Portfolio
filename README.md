@@ -23,6 +23,10 @@ Abaixo encontram-se os laboratórios práticos concluídos. Cada estudo de caso 
 * 🔍 **[Estudo de Caso 1: Análise de Sistema de Ficheiros Linux com Autopsy](./Sistemas-Ficheiros/Caso-01-Analise-Linux-Autopsy/README.md)**
   * *Técnicas:* Estrutura Linux, Análise `/etc/passwd`, Extração de Metadados e Cálculo de Hash MD5.
   * *Cenário:* Investigação a um colaborador suspeito de exfiltração de dados num ambiente Linux.
+ 
+* 🔍 **[Estudo de Caso 2: Análise Forense de Imagens Windows (NTFS) via CLI](./Sistemas-Ficheiros/Caso-02-Analise-Windows-TSK/README.md)**
+  * *Técnicas:* Linha de Comandos (The Sleuth Kit), Interrogação da MFT (`istat`), Deteção de Evasão e Data Carving (`fls`, `tsk_recover`).
+  * *Cenário:* Triagem e recuperação de ficheiros intencionalmente eliminados num sistema Windows através de interrogação direta de baixo nível.
 
 ---
 *Construído com foco na adoção de boas práticas da indústria e standards de investigação digital.*
