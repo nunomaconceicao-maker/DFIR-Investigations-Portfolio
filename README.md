@@ -29,6 +29,13 @@ Abaixo encontram-se os laboratórios práticos concluídos. Cada estudo de caso 
   * *Cenário:* Triagem e recuperação de ficheiros intencionalmente eliminados num sistema Windows através de interrogação direta de baixo nível.
 
 ### 🔒 Aquisição e Duplicação de Dados
-* 💾 **[Caso 01: Aquisição Física e Duplicação Forense Bit-a-Bit (dd CLI)](./Modulo-04-Aquisicao-Duplicacao/Caso-01-Aquisicao-Fisica-DD/README.md)**
+
+* 💾 **[Estudo de Caso 1: Aquisição Física e Duplicação Forense Bit-a-Bit (dd CLI)](./Aquisicao-Duplicacao/Caso-01-Aquisicao-Fisica-DD/README.md)**
+  * *Técnicas:* PowerShell, Interrogação de Hardware (WMI/CIM), Prevenção de Contaminação e Extração Raw (`dd`).
+  * *Cenário:* Captura física de um disco de sistema ativo para um disco forense isolado, mitigando conflitos de enumeração de hardware.
+
+* 💾 **[Estudo de Caso 2: Interoperabilidade Forense em Linux - Conversão de E01 para DD](./Aquisicao-Duplicacao/Caso-02-Conversao-E01-DD/README.md)**
+  * *Técnicas:* Linux CLI, Virtual File Systems (`xmount`), Gestão de Evidências Comprimidas (Expert Witness Format).
+  * *Cenário:* Emulação em tempo real de uma imagem proprietária E01 para formato Raw/dd sem duplicação física, preparando o ambiente para análise open-source.
 ---
 *Construído com foco na adoção de boas práticas da indústria e standards de investigação digital.*
