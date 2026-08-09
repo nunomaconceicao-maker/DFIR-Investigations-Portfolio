@@ -41,5 +41,9 @@ Abaixo encontram-se os laboratórios práticos concluídos. Cada estudo de caso 
 * 💾 **[Estudo de Caso 3: Montagem Forense de Sistemas de Ficheiros (NTFS e HFS+) em Linux](./Aquisicao-Duplicacao/Caso-03-Montagem-Imagens-Linux/README.md)**
   * *Técnicas:* Linux CLI, Prevenção de Contaminação (`-o ro`), Dispositivos de Bloco Virtuais (`losetup`), Análise de Artefactos Ocultos.
   * *Cenário:* Montagem de evidências *raw* para extração lógica e inspeção de ficheiros sensíveis do macOS (HFS+) e Windows (NTFS), assegurando a integridade pericial.
+ 
+* 🚀 **[Estudo de Caso 4: Análise Dinâmica e Emulação de Evidências (RAW para VMDK)](./Aquisicao-Duplicacao/Caso-04-Conversao-Bootable-VM/README.md)**
+  * *Técnicas:* Virtualização Linux (`qemu-img`), Contenção e Sandboxing (VMware), Isolamento de Rede (Air-Gapping).
+  * *Cenário:* Conversão de uma imagem física estática para um disco virtual arrancável, viabilizando análise comportamental e *Live Forensics* num ambiente isolado.
 ---
 *Construído com foco na adoção de boas práticas da indústria e standards de investigação digital.*
