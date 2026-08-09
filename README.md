@@ -37,5 +37,9 @@ Abaixo encontram-se os laboratórios práticos concluídos. Cada estudo de caso 
 * 💾 **[Estudo de Caso 2: Interoperabilidade Forense em Linux - Conversão de E01 para DD](./Aquisicao-Duplicacao/Caso-02-Conversao-E01-DD/README.md)**
   * *Técnicas:* Linux CLI, Virtual File Systems (`xmount`), Gestão de Evidências Comprimidas (Expert Witness Format).
   * *Cenário:* Emulação em tempo real de uma imagem proprietária E01 para formato Raw/dd sem duplicação física, preparando o ambiente para análise open-source.
+ 
+* 💾 **[Estudo de Caso 3: Montagem Forense de Sistemas de Ficheiros (NTFS e HFS+) em Linux](./Aquisicao-Duplicacao/Caso-03-Montagem-Imagens-Linux/README.md)**
+  * *Técnicas:* Linux CLI, Prevenção de Contaminação (`-o ro`), Dispositivos de Bloco Virtuais (`losetup`), Análise de Artefactos Ocultos.
+  * *Cenário:* Montagem de evidências *raw* para extração lógica e inspeção de ficheiros sensíveis do macOS (HFS+) e Windows (NTFS), assegurando a integridade pericial.
 ---
 *Construído com foco na adoção de boas práticas da indústria e standards de investigação digital.*
