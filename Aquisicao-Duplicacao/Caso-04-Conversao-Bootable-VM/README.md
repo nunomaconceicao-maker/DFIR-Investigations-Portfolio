@@ -1,41 +1,47 @@
-# 🚀 DFIR: Análise Dinâmica e Emulação de Evidências (Raw para VMDK)
+# 🔍 DFIR: Virtualização de Imagem Forense para Análise Dinâmica
 
-## 📌 Sobre a Intervenção
-Em investigações forenses, a análise estática pode ser insuficiente quando nos deparamos com dados ofuscados, artefactos em memória ou aplicações cuja decifragem depende do arranque do sistema operativo. Este laboratório documenta o processo de conversão de uma imagem física estática (`.dd`) num disco virtual arrancável (`.vmdk`), permitindo a condução de uma **Análise Dinâmica** em ambiente isolado (*Sandbox*).
+## 📌 Scenario
+Em investigações de resposta a incidentes, a análise estática pode revelar-se insuficiente quando a equipa se depara com dados ofuscados, artefactos voláteis ou aplicações cuja decifragem depende do arranque nativo do sistema operativo. Este laboratório documenta a transição de uma investigação estática para uma abordagem de *Live Forensics* (Análise Dinâmica). O processo envolveu a virtualização de uma **cópia de trabalho** (proveniente de uma imagem física original) num disco virtual arrancável, replicando o ambiente exato do suspeito de forma isolada e contida.
 
-## 🎯 Objetivos Técnicos
-* Empregar utilitários de virtualização *open-source* (QEMU) para conversão de matrizes de dados.
-* Desenhar e implementar um ambiente de *Sandboxing* (VMware Workstation) para contenção da ameaça.
-* Executar a inicialização (*boot*) da máquina do suspeito preservando o estado das evidências e garantindo isolamento de rede (*Air-Gapping*).
+## 🎯 Objectives
+* Empregar utilitários de virtualização *open-source* (QEMU) para efetuar a transição da matriz de dados de *Raw* para Virtual.
+* Desenhar e implementar um ambiente de *Sandboxing* para contenção absoluta de ameaças adormecidas.
+* Inicializar (*boot*) a máquina do suspeito em segurança, extraindo artefactos interativos e contornando a ofuscação da evidência em repouso.
 
-## 🛠️ Stack Tecnológico e Ambiente
-* **Motor de Conversão:** Ubuntu Linux com `qemu-utils` (`qemu-img`)
+## 🧾 Evidence
+* **Origem:** Cópia de Trabalho (*Working Copy*) proveniente de imagem física `.dd`.
+* **Formato Intermédio:** `.vmdk` (Virtual Machine Disk)
+
+## 🛠️ Environment & Tools
+* **Motor de Transição:** Ubuntu Linux (`qemu-img`)
 * **Plataforma de Sandboxing:** VMware Workstation
-* **Transição de Formatos:** `RAW / .dd` -> `VMware / .vmdk`
+* **Sistema Alvo Emulado:** Microsoft Windows 10
 
 ---
 
-## 📂 Metodologia e Execução
-
-### Fase 1: Tradução do Sistema de Ficheiros (QEMU)
-Para tornar o dump físico suportável por um *hypervisor* comercial, procedeu-se à manipulação da imagem através do *kernel* Linux:
-* Instalação das dependências de virtualização (`apt-get install qemu-utils`).
-* Execução do utilitário de conversão indicando o formato original estrito e o formato de saída do hipervisor: 
-  `qemu-img convert -f raw Windows_Evidence_002.dd -O vmdk Windows.vmdk`.
-* Este processo reconstruiu os cabeçalhos do disco para criar um contentor VMDK funcional, sem adulterar o *payload* de dados (partições, MFT, etc.).
-
-### Fase 2: Configuração da Arquitetura de Contenção (VMware Workstation)
-A evidência traduzida foi migrada para uma *workstation* Windows para emulação, cumprindo protocolos estritos de segurança:
-* **Isolamento Lógico (Air-Gapping):** O adaptador de rede (*Network Adapter*) da máquina foi categoricamente configurado para `Do not use a network connection`. Este passo é obrigatório em protocolos de *Incident Response* para prevenir lateralização de *malware* adormecido, chamadas de C2 (*Command and Control*) ou alteração de *timestamps* via NTP (*Network Time Protocol*).
-* **Parâmetros de Hardware:** Configuração do *Firmware Type* estritamente definida para **BIOS** (em detrimento de UEFI), garantindo a compatibilidade de arranque (*legacy boot*) associada a discos clonados fisicamente.
-* A alocação de memória RAM foi limitada a ~1.5GB (1536 MB) estáticos para prevenir o esgotamento de recursos do *host* durante a análise.
-
-### Fase 3: Inicialização e Interação de Primeiro Plano
-* O disco `.vmdk` foi anexado como disco virtual primário à máquina ("*Use an existing virtual disk*"), mantendo o seu formato original.
-* O sistema operativo alvo (Windows 10) arrancou com sucesso no ambiente emulado. A partir deste estado dinâmico, tornou-se possível extrair artefactos baseados em *interface* e efetuar *memory dumping* local de processos previamente encriptados na evidência em repouso.
+## 🔬 Methodology
+1. **Tradução da Arquitetura (QEMU):** Execução do utilitário `qemu-img` sobre o *kernel* Linux (`qemu-img convert -f raw Windows_Evidence_002.dd -O vmdk Windows.vmdk`) para reconstruir os cabeçalhos do contentor hipervisor sem adulterar o *payload* da evidência (partições, MFT).
+2. **Design de Contenção (VMware):**
+   * **Network Isolation:** O adaptador de rede (*Network Adapter*) foi categoricamente configurado para `Do not use a network connection`. 
+   * **Parâmetros de Hardware:** Configuração do *Firmware Type* definida estritamente para **BIOS** (em detrimento de UEFI), garantindo a compatibilidade de arranque (*legacy boot*) associada a discos clonados bit-a-bit.
+   * **Limitação de Recursos:** A memória RAM foi limitada a ~1.5GB (1536 MB) estáticos para prevenir o esgotamento do *host* durante a emulação.
+3. **Interação de Primeiro Plano:** O disco `.vmdk` foi anexado como disco virtual primário ("*Use an existing virtual disk*"), e a máquina virtual foi inicializada.
 
 ---
 
-## 💡 Parecer Técnico e Lições Retiradas
-1. **O Valor da Virtualização em DFIR:** O utilitário `qemu-img` demonstra uma flexibilidade ímpar na tradução de arquiteturas de discos, permitindo que imagens estáticas capturadas no terreno sejam rapidamente transformadas em cenários vivos nos SOCs para análise comportamental de artefactos suspeitos.
-2. **Rigor no Isolamento de Rede:** O arranque de uma máquina pericial acarreta um risco severo de contaminação. Garantir que a placa de rede virtual está completamente desligada fisicamente no *hypervisor* não é apenas uma boa prática, é um requisito legal em cadeia de custódia para garantir que a evidência não estabelece ligações externas que alterem o seu estado ou comprometam a rede do laboratório.
+## 🔎 Analysis
+
+### Evidence 01
+O sistema operativo emulado (Windows 10) concluiu o processo de inicialização (*boot sequence*) e atingiu com sucesso o *Lock Screen* interativo, desencadeando o carregamento dinâmico de chaves de registo e processos de sistema em *runtime*.
+
+## 🧩 Findings
+* **Finding 1 (Desbloqueio de Extração Dinâmica):** A conversão íntegra dos cabeçalhos estruturais via QEMU permitiu ao *hypervisor* assimilar o dump físico como hardware legítimo. Este passo operacionaliza a extração de artefactos baseados em *interface* de utilizador e permite efetuar *memory dumping* local de processos que requerem a API do Windows para se revelarem.
+
+---
+
+## ⚠️ Forensic Considerations
+* **Alteração Inevitável de Artefactos:** O arranque (*boot*) de um sistema operativo causa alterações massivas em metadados, ficheiros temporários, *prefetch* e *event logs*. É imperativo que esta técnica seja conduzida **exclusivamente sobre uma cópia de trabalho**. A imagem `.dd` primária tem de permanecer segregada e inviolada.
+* **Isolamento de Rede rigoroso:** Garantir que a placa de rede virtual está completamente desligada fisicamente no *hypervisor* constitui uma medida essencial de controlo em cadeia de custódia. O *Network Isolation* previne a lateralização inadvertida de *malware*, inibe chamadas *Command and Control (C2)* ao exterior e bloqueia a alteração cronológica baseada em Network Time Protocol (NTP).
+
+## 📝 Conclusion
+A virtualização da cópia estática para um modelo de emulação dinâmica foi bem-sucedida e operada sob rigorosos parâmetros de contenção. O ambiente *Sandboxed* viabilizou a condução de comportamentos dinâmicos, permitindo o avanço da investigação forense para táticas avançadas de recuperação que estariam bloqueadas num cenário de análise exclusivamente estática.
