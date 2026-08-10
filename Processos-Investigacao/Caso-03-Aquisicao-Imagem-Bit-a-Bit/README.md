@@ -1,23 +1,59 @@
-# 💾 DFIR: Aquisição Forense e Preservação de Evidências (Bit-by-Bit Copy)
+# 🔍 DFIR: Aquisição Forense e Preservação de Evidências (Bit-by-Bit Copy)
 
-## 📌 Sobre o Projeto
-Este repositório documenta a primeira e mais crítica fase de qualquer investigação de *Digital Forensics and Incident Response* (DFIR): a **Aquisição de Dados**. 
+## 📌 Scenario
+Esta intervenção documenta a primeira e mais crítica fase de qualquer processo de *Digital Forensics and Incident Response* (DFIR): a **Aquisição de Dados**. O cenário foca-se na necessidade de intervir num suporte físico de armazenamento suspeito. O objetivo primário é executar a imobilização e duplicação da prova através de uma imagem forense exata (cópia *bit-a-bit*), garantindo que a evidência original é isolada, preservada de modificações acidentais ou intencionais, e preparada para análise subsequente em ambiente estanque.
 
-O objetivo deste estudo de caso é demonstrar o procedimento correto para criar uma imagem forense exata (cópia bit-a-bit) de um suporte físico de armazenamento, garantindo que a evidência original é isolada e preservada de modificações acidentais ou intencionais durante a análise.
+## 🎯 Objectives
+* **Aquisição Rigorosa:** Criar uma réplica física/lógica exata (*bit-stream image*) da partição de disco, contornando a abstração do sistema operativo.
+* **Captura de Dados Latentes:** Assegurar que a duplicação recolhe a totalidade do espaço não alocado (*Unallocated Space*) e os fragmentos residuais (*Slack Space*), imperativos para a fase de *Data Recovery*.
+* **Preservação da Cadeia de Custódia:** Aplicar medidas de controlo para garantir que todo o escrutínio e manipulação técnica futura ocorre exclusivamente sobre a cópia forense gerada (respeitando o Princípio de Troca de Locard).
 
-## 🎯 Objetivos Técnicos
-* **Aquisição Forense:** Criar uma réplica exata (*bit-stream image*) de uma partição de disco.
-* **Preservação da Cadeia de Custódia:** Garantir que o trabalho de análise subsequente é realizado exclusivamente sobre a cópia forense, protegendo a prova original (Princípio de Locard).
-* **Captura de Dados Ocultos:** Assegurar que a imagem recolhe o espaço não alocado (*unallocated space*) e os fragmentos residuais (*slack space*), essenciais para a recuperação de dados eliminados.
+## 🧾 Evidence
+* **Origem:** Suporte físico de armazenamento (Partição/Disco alvo).
+* **Formato Resultante:** Imagem Forense Proprietária (`.rdr`).
+* **Estado:** Cópia de trabalho preservada em ambiente isolado.
 
-## 🛠️ Stack Tecnológico e Ambiente
-* **Ferramenta de Imagem:** R-Drive Image (Software comercial de imaging / *Disaster Recovery*)
-* **Tipo de Aquisição:** Cópia Física/Lógica Bit-a-Bit (`.rdr`)
-* **Ambiente de Laboratório:** Máquina Virtual Windows estanque.
+## 🛠️ Environment & Tools
+* **Ferramenta de Imaging:** R-Drive Image (Software comercial de *Imaging* / *Disaster Recovery*).
+* **Sistema Operativo:** Microsoft Windows (Máquina Virtual estanque).
 
 ---
 
-## 📂 Metodologia de Aquisição
+## 🔬 Methodology
+1. **Isolamento e Preparação:** Isolamento lógico da evidência original e acoplamento do disco de destino forense (previamente higienizado).
+2. **Configuração do Motor de Imagem:** Inicialização da ferramenta R-Drive Image com privilégios administrativos para interagir diretamente a nível de bloco.
+3. **Seleção de Parâmetros (Bypass Lógico):** Rejeição explícita da cópia lógica baseada em ficheiros (inadequada para DFIR) em prol da configuração de cópia setor-a-setor (*bit-by-bit*).
+4. **Captura Integral:** Execução da leitura de toda a superfície magnética/chips NAND, abrangendo a *Master File Table* (MFT), os dados em utilização, o *Slack Space* e o *Unallocated Space*.
+5. **Geração do Contentor:** Despejo dos blocos binários copiados para o ficheiro de imagem de destino.
+
+---
+
+## 🔎 Analysis
+
+> **Nota:** Tratando-se de uma fase estrita de aquisição, a análise incide sobre o contentor pericial gerado e o processo de isolamento, não sobre a extração de artefactos do sistema alvo.
+
+### Evidence 01
+A parametrização técnica do R-Drive Image para cópia setor-a-setor gerou um ficheiro de destino (`.rdr`) cujo tamanho reflete a dimensão volumétrica total da partição geométrica, ignorando o "espaço livre" reportado pela API do Windows.
+
+### Evidence 02
+A imagem resultante encapsulou blocos físicos que não contêm ficheiros ativos registados na MFT atual.
+
+## 🧩 Findings
+* **Finding 1 (O Valor do Bit-a-Bit):** A rejeição da cópia lógica foi vital. O encapsulamento integral dos setores físicos garante que ficheiros previamente eliminados (residentes no *Unallocated Space*) e dados residuais do fecho de blocos (*Slack Space*) transitam com sucesso para o disco forense do laboratório, habilitando as futuras fases de *Data Carving*.
+* **Finding 2 (Mitigação do Princípio de Locard):** Ao executar o bloqueio do disco primário e transferir a intervenção para a imagem `.rdr`, a equipa anula o Princípio de Troca de Locard (onde cada interação com o sistema deixa e leva um vestígio), garantindo que a prova matricial nunca sofre *mount timestamps* ou atualizações de metadados indesejadas.
+
+---
+
+## ⚠️ Forensic Considerations
+* **Formatos Proprietários vs. Open-Source:** A ferramenta R-Drive Image gera contentores com a extensão proprietária `.rdr`. Apesar de eficiente para *Disaster Recovery*, em DFIR isto introduz um desafio de interoperabilidade. A posterior análise em ferramentas *open-source* (como o Autopsy ou The Sleuth Kit) exigirá procedimentos adicionais de conversão ou montagem em Virtual File Systems (VFS) para expor a matriz *Raw/dd*.
+* **Assinatura e Integridade:** O padrão da indústria dita que, no momento imediato à conclusão da barra de progresso da ferramenta de cópia, devem ser gerados os hashes MD5 e SHA-256 do disco físico de origem e da imagem gerada, sendo as suas assinaturas documentadas no relatório de apreensão.
+
+## 📝 Conclusion
+A fase de aquisição forense foi conduzida em rigorosa conformidade. A cópia exata do suporte garantiu a preservação da totalidade da superfície de dados, imobilizando o estado da evidência no momento da recolha e viabilizando a condução segura e destrutiva de investigações analíticas no ambiente *Sandboxed* da equipa.
+
+---
+
+## 📊 Fluxo da Metodologia de Aquisição
 
 ```mermaid
 graph TD
