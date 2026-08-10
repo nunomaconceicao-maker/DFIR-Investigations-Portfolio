@@ -1,49 +1,90 @@
-# 🛡️ Portefólio de Investigação Forense e Resposta a Incidentes (DFIR)
+# 🛡️ DFIR Investigations Portfolio
 
-Bem-vindo ao meu repositório central de Cibersegurança. Este espaço é dedicado à documentação de simulações práticas, exercícios de laboratório e estudos de caso focados em **Digital Forensics**, **Incident Response** e **Análise SOC**.
+Bem-vindo ao meu portefólio de **Digital Forensics, Incident Response e Security Operations**.
 
-## 📂 Casos Investigados e Metodologias
+Este repositório documenta a minha evolução prática em **Digital Forensics & Incident Response (DFIR)** através de laboratórios, simulações de investigação e estudos de caso.
 
-Abaixo encontram-se os laboratórios práticos concluídos. Cada estudo de caso contém a metodologia detalhada, os fluxogramas de decisão técnica e os resultados da investigação.
+O objetivo não é apenas demonstrar a utilização de ferramentas, mas documentar uma metodologia de investigação baseada em **preservação de evidência, aquisição, exame, análise, correlação de artefactos e elaboração de conclusões suportadas por evidência técnica**.
 
-* 🔍 **[Estudo de Caso 1: Ameaça Interna, Ocultação de Dados e Triagem de Malware](./Caso-01-Ameaca-Interna/README.md)**
-  * *Técnicas:* Recuperação de blocos não alocados, validação de integridade (Hashes MD5/HMAC) e OSINT.
-  * *Cenário:* Fraude financeira e destruição intencional de provas (Shift+Del).
+> 🟢 **Status:** Portefólio ativo e em desenvolvimento contínuo.
 
-* 🔍 **[Estudo de Caso 2: Processamento Forense e Cadeia de Custódia com Autopsy](./Caso-02-Forense-com-Autopsy/README.md)**
-  * *Técnicas:* Ingestão de imagens `.dd`, Data Carving, Análise Hexadecimal (Magic Numbers) e Tagging.
-  * *Cenário:* Análise de imagem Raw em ambiente estanque para extração legal de provas.
-
-* 🔍 **[Estudo de Caso 3: Aquisição Forense e Preservação de Evidências (Bit-by-Bit)](./Caso-03-Aquisicao-Imagem-Bit-a-Bit/README.md)**
-  * *Técnicas:* Cópia Bit-a-Bit, Captura de Slack Space e Unallocated Space.
-  * *Cenário:* Isolamento e duplicação da evidência antes da intervenção técnica para preservar a cadeia de custódia.
- 
-## 📂 Compreensão e Análise de Sistemas de Ficheiros
-
-* 🔍 **[Estudo de Caso 1: Análise de Sistema de Ficheiros Linux com Autopsy](./Sistemas-Ficheiros/Caso-01-Analise-Linux-Autopsy/README.md)**
-  * *Técnicas:* Estrutura Linux, Análise `/etc/passwd`, Extração de Metadados e Cálculo de Hash MD5.
-  * *Cenário:* Investigação a um colaborador suspeito de exfiltração de dados num ambiente Linux.
- 
-* 🔍 **[Estudo de Caso 2: Análise Forense de Imagens Windows (NTFS) via CLI](./Sistemas-Ficheiros/Caso-02-Analise-Windows-TSK/README.md)**
-  * *Técnicas:* Linha de Comandos (The Sleuth Kit), Interrogação da MFT (`istat`), Deteção de Evasão e Data Carving (`fls`, `tsk_recover`).
-  * *Cenário:* Triagem e recuperação de ficheiros intencionalmente eliminados num sistema Windows através de interrogação direta de baixo nível.
-
-### 🔒 Aquisição e Duplicação de Dados
-
-* 💾 **[Estudo de Caso 1: Aquisição Física e Duplicação Forense Bit-a-Bit (dd CLI)](./Aquisicao-Duplicacao/Caso-01-Aquisicao-Fisica-DD/README.md)**
-  * *Técnicas:* PowerShell, Interrogação de Hardware (WMI/CIM), Prevenção de Contaminação e Extração Raw (`dd`).
-  * *Cenário:* Captura física de um disco de sistema ativo para um disco forense isolado, mitigando conflitos de enumeração de hardware.
-
-* 💾 **[Estudo de Caso 2: Interoperabilidade Forense em Linux - Conversão de E01 para DD](./Aquisicao-Duplicacao/Caso-02-Conversao-E01-DD/README.md)**
-  * *Técnicas:* Linux CLI, Virtual File Systems (`xmount`), Gestão de Evidências Comprimidas (Expert Witness Format).
-  * *Cenário:* Emulação em tempo real de uma imagem proprietária E01 para formato Raw/dd sem duplicação física, preparando o ambiente para análise open-source.
- 
-* 💾 **[Estudo de Caso 3: Montagem Forense de Sistemas de Ficheiros (NTFS e HFS+) em Linux](./Aquisicao-Duplicacao/Caso-03-Montagem-Imagens-Linux/README.md)**
-  * *Técnicas:* Linux CLI, Prevenção de Contaminação (`-o ro`), Dispositivos de Bloco Virtuais (`losetup`), Análise de Artefactos Ocultos.
-  * *Cenário:* Montagem de evidências *raw* para extração lógica e inspeção de ficheiros sensíveis do macOS (HFS+) e Windows (NTFS), assegurando a integridade pericial.
- 
-* 🚀 **[Estudo de Caso 4: Análise Dinâmica e Emulação de Evidências (RAW para VMDK)](./Aquisicao-Duplicacao/Caso-04-Conversao-Bootable-VM/README.md)**
-  * *Técnicas:* Virtualização Linux (`qemu-img`), Contenção e Sandboxing (VMware), Isolamento de Rede (Air-Gapping).
-  * *Cenário:* Conversão de uma imagem física estática para um disco virtual arrancável, viabilizando análise comportamental e *Live Forensics* num ambiente isolado.
 ---
-*Construído com foco na adoção de boas práticas da indústria e standards de investigação digital.*
+
+## 🧠 Áreas de Competência
+
+**Digital Forensics**
+* Aquisição e duplicação forense
+* Preservação e integridade de evidências
+* File System Forensics
+* Data Carving e recuperação de ficheiros
+* Análise de metadados e verificação de hashes
+* Análise de espaço não alocado e Slack Space
+* Gestão rigorosa da cadeia de custódia
+
+**Sistemas e Artefactos**
+* Interoperabilidade Windows e Linux
+* Análise de partições NTFS e HFS+
+* Análise de imagens RAW/DD
+* E01 / Expert Witness Format
+* Interrogação de artefactos de baixo nível
+
+**Incident Response**
+* Evidence Triage
+* Investigação de atividade suspeita
+* Identificação de indicadores de compromisso (IOCs)
+* Reconstrução de atividade e Timeline Analysis
+
+**Virtualização e Análise Dinâmica**
+* VMware Workstation e Hyper-V
+* QEMU / qemu-img / xmount
+* Virtualização de imagens forenses
+* Ambientes isolados (Network Isolation)
+* Análise dinâmica de sistemas
+
+**Scripting e Automação**
+* Python, Bash e PowerShell
+* Linux CLI
+* Automação de tarefas repetitivas
+
+---
+
+## 🧰 Ferramentas Trabalhadas
+
+* Autopsy
+* The Sleuth Kit (TSK)
+* dd / dcfldd
+* xmount
+* qemu-img
+* losetup
+* VMware Workstation
+* PowerShell / WMI
+* Linux CLI
+
+> *Esta lista será atualizada à medida que novas ferramentas forem utilizadas em investigações e laboratórios.*
+
+---
+
+## 🔬 Metodologia de Investigação
+
+As investigações documentadas neste repositório procuram seguir um fluxo estruturado e normalizado pela indústria:
+
+```text
+Identification
+     ↓
+Preservation
+     ↓
+Acquisition
+     ↓
+Integrity Verification
+     ↓
+Examination
+     ↓
+Analysis
+     ↓
+Timeline Reconstruction
+     ↓
+Evidence Correlation
+     ↓
+Findings
+     ↓
+Reporting
