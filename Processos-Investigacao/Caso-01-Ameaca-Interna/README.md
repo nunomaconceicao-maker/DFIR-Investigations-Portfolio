@@ -1,52 +1,65 @@
 # 🔍 DFIR: Estudo de Caso de Investigação Forense e Ameaça Interna
 
-## 📌 Sobre o Projeto
-Este repositório documenta uma simulação prática de Digital Forensics and Incident Response (DFIR). O objetivo deste projeto é demonstrar as metodologias de aquisição, recuperação de dados eliminados, verificação de integridade e deteção de técnicas de evasão (anti-forense) num cenário de *Insider Threat* (Ameaça Interna).
+## 📌 Scenario
+Foi detetada uma anomalia grave nos registos financeiros da organização. Suspeita-se que um colaborador interno (*Insider Threat*) tenha executado fraude financeira e tentado destruir provas eliminando permanentemente ficheiros locais de auditoria. Adicionalmente, existem suspeitas de tentativa de exfiltração de dados e movimento lateral através de artefactos camuflados. A intervenção requer a recuperação de dados perdidos, deteção de técnicas anti-forenses (ofuscação) e triagem de *malware*, garantindo em todas as etapas a cadeia de custódia e o isolamento do laboratório.
 
-## 🎯 Objetivos Técnicos
-* **Recuperação de Dados:** Restaurar artefactos e ficheiros de registo financeiro intencionalmente eliminados para ocultar provas.
-* **Integridade Criptográfica:** Garantir a Cadeia de Custódia através do cálculo de assinaturas Hash (MD5/SHA-256) e validação HMAC.
-* **Triagem de Malware:** Analisar artefactos suspeitos através de OSINT sem comprometer o ambiente de análise.
-* **Deteção de Anti-Forense:** Identificar ofuscação de dados e adulteração de *File Signatures* (Magic Numbers).
+## 🎯 Objectives
+* Restaurar artefactos e ficheiros de registo financeiro intencionalmente eliminados a partir de blocos não alocados.
+* Garantir a Cadeia de Custódia através do cálculo rigoroso de assinaturas criptográficas (Hashes MD5/SHA-256 e validação HMAC).
+* Executar a triagem de artefactos suspeitos (*malware*) via inteligência OSINT, sem comprometer o ambiente de análise.
+* Identificar técnicas de anti-forense, ofuscação de dados e falsificação de *File Signatures* (Magic Numbers).
 
-## 🛠️ Ferramentas Utilizadas
-* **Recuperação de Ficheiros:** Software de Data Recovery Comercial / TestDisk
-* **Análise de Integridade:** Geradores de Hash (MD5 Calculator, HashCalc)
-* **Inteligência de Ameaças:** VirusTotal API / OSINT
-* **Análise Hexadecimal/Estrutural:** File Viewer e analisadores de cabeçalhos de ficheiros
-* **Ambiente Segregado:** Máquina Virtual Windows estanque (Sem comunicação com a rede host)
+## 🧾 Evidence
+* **Tipo:** Espaço não alocado do Disco (Volume `D:`) e ficheiros suspeitos extraídos.
+* **Estado:** Imagem/Artefactos isolados em ambiente estanque.
+
+## 🛠️ Environment & Tools
+* **Sistema Operativo:** Windows (*Forensic Sandbox* segregada - sem rede host).
+* **Ferramentas:** TestDisk / Software de Data Recovery, MD5 Calculator / HashCalc, File Viewer / Analisadores Hexadecimais, VirusTotal API (OSINT).
+
+---
+
+## 🔬 Methodology
+1. **Recuperação de Dados (Data Carving):** Realização de uma varredura profunda (*Deep Scan*) aos blocos não alocados do volume lógico suspeito.
+2. **Preservação e Cadeia de Custódia:** Extração dos ficheiros órfãos para um diretório seguro, seguida da submissão imediata a cálculos de hash (MD5). Adicionalmente, aplicou-se HMAC com uma chave simétrica de controlo para selar a integridade da evidência recuperada.
+3. **Análise Hexadecimal (Anti-Forense):** Interrogação dos cabeçalhos hexadecimais (Magic Numbers) de ficheiros de media suspeitos para validar a sua verdadeira assinatura em oposição à extensão reportada pelo Sistema Operativo.
+4. **Triagem de Ameaças Estática:** Extração do hash de um ficheiro PDF suspeito e submissão à API do VirusTotal, aferindo o grau de ameaça sem recorrer à detonação do binário no ambiente local.
 
 ---
 
-## 📂 Fases da Investigação
+## 🔎 Analysis
 
+### Evidence 01 (Espaço Não Alocado)
+Os ficheiros de texto `audit_log_Q3.txt` e `transfer_records.txt` foram localizados intactos nos blocos não alocados do disco. Os seus apontadores originais na Master File Table (MFT) haviam sido eliminados (via instrução `Shift + Del`).
 
-### Fase 1: Recuperação de Provas (Cenário de Fraude Financeira)
-**Contexto:** Foi detetada uma anomalia nos registos financeiros da organização. O principal suspeito eliminou permanentemente (via `Shift + Del`) os ficheiros de auditoria locais numa tentativa de destruir provas.
-* **Metodologia:** Realizou-se uma varredura profunda (Deep Scan) aos blocos não alocados do disco (Volume `D:`).
-* **Descobertas:** Como o sistema operativo apenas eliminou o apontador na Master File Table (MFT) e os setores não foram reescritos, foi possível extrair e pré-visualizar os ficheiros de texto cruciais (`audit_log_Q3.txt` e `transfer_records.txt`), isolando-os num diretório seguro.
+### Evidence 02 (Artefacto PDF)
+O cálculo da assinatura MD5 do ficheiro `invoice_urgente.pdf` gerou uma *string* que, quando cruzada com bases de dados de inteligência de ameaças (VirusTotal), devolveu correspondência positiva (*match*) com um *payload* previamente classificado como malicioso por dezenas de motores de segurança.
 
-### Fase 2: Cadeia de Custódia e Triagem de Malware
-**Contexto:** Para garantir a validade legal das provas e investigar um anexo suspeito encontrado durante a recuperação de dados.
-* **Metodologia:** 
-  1. Todos os ficheiros recuperados foram submetidos a cálculos de hash (MD5). Adicionalmente, testou-se a aplicação de HMAC com uma chave simétrica de controlo para selar a integridade dos dados recuperados.
-  2. Um ficheiro PDF suspeito (`invoice_urgente.pdf`) teve o seu hash extraído localmente e verificado contra bases de dados de inteligência de ameaças (VirusTotal).
-* **Descobertas:** A pesquisa não intrusiva pelo hash do PDF revelou que o ficheiro continha um *payload* malicioso, identificado por dezenas de motores de segurança, sem nunca ter sido necessário executar o ficheiro no ambiente local.
+### Evidence 03 (Falsificação de Extensão)
+O ficheiro `treino_seguranca.mp4` reportou erros de compilação durante a tentativa de execução. A análise estrutural revelou que o seu *Magic Number* (cabeçalho hexadecimal) não corresponde à norma ISO Base Media File Format requerida para a tipologia MP4.
 
-### Fase 3: Deteção de Técnicas Anti-Forense (Ofuscação de Ficheiros)
-**Contexto:** Durante a análise ao tráfego de rede capturado, encontrou-se um ficheiro de vídeo (`treino_seguranca.mp4`) e vários anexos de imagem. Suspeita-se de exfiltração de dados ou movimento lateral.
-* **Metodologia:** Cruzamento da extensão dos ficheiros com os seus respetivos *Magic Numbers* (cabeçalhos estruturais).
-* **Descobertas:** 
-  * O cálculo de hash a um ficheiro de imagem aparentemente inofensivo (`anexo_01.png`) não coincidiu com a sua versão de *backup* original, levantando fortes indícios de esteganografia.
-  * O suposto vídeo `.mp4` falhou a execução, despoletando erros de compilação. A análise estrutural confirmou que o cabeçalho não correspondia a um ficheiro de media. A extensão foi forjada pelo atacante para passar despercebida pelos filtros de segurança básicos.
+### Evidence 04 (Discrepância de Hashes)
+O ficheiro visualmente inofensivo `anexo_01.png` revelou um *Hash* divergente da sua respetiva versão de *backup* original, apesar de não existirem alterações gráficas percetíveis à vista desarmada.
 
- ## 💡 Conclusões e Lições Retiradas
-1. **Volatilidade e Tempo de Resposta:** O sucesso da recuperação de dados em discos NTFS/FAT depende da rapidez do isolamento do disco. Uma intervenção atempada evitou o *data overwriting*.
-2. **Abordagem "Zero-Trust" aos Ficheiros:** Nunca confiar nas extensões dos ficheiros. A análise forense deve basear-se sempre nas assinaturas hexadecimais (Magic Numbers) para identificar a verdadeira natureza de um artefacto.
-3. **Segurança do Ambiente de Análise:** O cálculo local de hashes aliado a plataformas OSINT permite realizar uma triagem eficaz de malware sem expor a infraestrutura a potenciais infeções.
+## 🧩 Findings
+* **Finding 1 (Recuperação de Ocultação):** A eliminação `Shift + Del` suprime as vias normais de acesso do SO, mas não reescreve os setores físicos de imediato. A presença integral dos ficheiros financeiros na evidência 01 comprova a destruição intencional de provas documentais ligadas à fraude, agora recuperadas com sucesso.
+* **Finding 2 (Ameaça Confirmada via OSINT):** A correspondência criptográfica da evidência 02 confirma que o ficheiro PDF é um vetor de intrusão (*malware*). O recurso a OSINT permitiu confirmar a ameaça com 100% de grau de confiança, sem nunca expor a *Forensic Sandbox* a uma infeção acidental.
+* **Finding 3 (Práticas Evasivas e Anti-Forense):** O perpetrador empregou metodologias ativas de ofuscação para camuflar exfiltração de dados ou movimento lateral:
+  * O vídeo MP4 (Evidência 03) teve a sua extensão forjada para iludir filtros de segurança básicos, ocultando a verdadeira natureza do executável/script.
+  * A alteração não visual do código binário do ficheiro PNG (Evidência 04) sugere fortes indícios da utilização de esteganografia para contrabando de dados ofuscados.
 
 ---
-*Este projeto foi desenvolvido como um exercício prático de aprofundamento de competências em Cibersegurança e Digital Forensics.*
+
+## ⚠️ Forensic Considerations
+* **Volatilidade e Reescrita (Overwriting):** A recuperação bem-sucedida descrita no Finding 1 dependeu criticamente da rapidez de resposta e do isolamento do disco (prevenção de escrita). Num disco NTFS ativo, o sistema operativo acabaria por reutilizar o espaço não alocado, destruindo a prova de forma irreversível.
+* **Filosofia Zero-Trust perante Artefactos:** A investigação sublinha o princípio basilar do DFIR: as extensões de ficheiro são meras convenções visuais do Sistema Operativo. A validação estrutural a nível hexadecimal (Magic Numbers) é a única forma técnica de garantir a verdadeira tipologia de um artefacto.
+
+## 📝 Conclusion
+A investigação técnica concluiu positivamente o envolvimento do *insider* em manobras de fraude financeira, corroborado pelos registos de auditoria recuperados do disco. A identificação paralela de técnicas de evasão anti-forense (extensões forjadas e provável esteganografia) revela um nível de sofisticação técnico que visava a ocultação e exfiltração de dados. A metodologia implementada assegurou que as provas mantivessem validade de cadeia de custódia e que as ferramentas maliciosas não pusessem em causa a infraestrutura pericial.
+
+---
+
+## 📊 Fluxo da Investigação
 
 ```mermaid
 graph TD
@@ -63,4 +76,4 @@ graph TD
     
     classDef default fill:#f9f9f9,stroke:#333,stroke-width:2px;
     classDef decision fill:#e1f5fe,stroke:#0288d1,stroke-width:2px;
-    class C decision;```
+    class C decision;
