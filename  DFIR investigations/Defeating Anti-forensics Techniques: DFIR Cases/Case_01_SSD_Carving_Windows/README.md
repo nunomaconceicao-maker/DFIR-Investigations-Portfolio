@@ -25,9 +25,6 @@ Nesta primeira fase, simulámos a análise de um SSD moderno onde a funcionalida
 
 > **Observação:** O Autopsy não conseguiu recuperar nenhum ficheiro do espaço não alocado. Isto ocorreu porque, com o TRIM ativado, o sistema operativo instruiu o controlador do SSD a apagar fisicamente (zero-fill/garbage collection) os blocos marcados como apagados.
 
-*(Opcional: Adicionar imagem aqui)*
-<!-- ![Autopsy - TRIM Enabled](caminho_para_a_tua_imagem/trim_enabled.png) -->
-
 ---
 
 ### Fase 2: Análise com TRIM Desativado (Trim Disabled)
@@ -43,9 +40,6 @@ Na segunda fase, analisámos uma imagem onde o TRIM estava inativo (comportament
    * Através do painel inferior, os ficheiros foram validados em formato *Hex* e *Application* (visualização nativa).
    * Procedeu-se à extração (*Extract File(s)*) das evidências para o diretório local do caso.
 
-*(Opcional: Adicionar imagem aqui)*
-<!-- ![Autopsy - TRIM Disabled - Carved Files](caminho_para_a_tua_imagem/trim_disabled_carved.png) -->
-<!-- ![Autopsy - Ficheiro Extraído](caminho_para_a_tua_imagem/trim_disabled_extracted.png) -->
 
 ---
 
