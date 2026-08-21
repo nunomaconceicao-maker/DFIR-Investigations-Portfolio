@@ -1,4 +1,4 @@
-# 🔬 Lab 1: SSD File Carving num Sistema de Ficheiros Windows
+# 🔬 Case 1: SSD File Carving num Sistema de Ficheiros Windows
 
 ## 📝 Descrição e Cenário
 O **File Carving** é uma técnica forense utilizada para recuperar ficheiros (ou fragmentos de ficheiros) a partir do espaço não alocado de um disco, baseando-se em assinaturas de ficheiros (Magic Numbers/Headers e Footers), ignorando o sistema de ficheiros (ex: NTFS, FAT32) e a ausência de metadados.
