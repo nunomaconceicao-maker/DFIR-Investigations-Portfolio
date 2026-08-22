@@ -25,11 +25,6 @@ A esteganografia é a prática de ocultar ficheiros, mensagens ou binários mali
 1. **Alvo:** `Dangerous.wav` (Ficheiro Carrier)
 2. **Abordagem:** Ficheiros de áudio não comprimidos (WAV/FLAC) são vetores perfeitos para ocultar grandes volumes de dados. A ferramenta **DeepSound** foi utilizada para analisar as frequências e o espetro do ficheiro.
 3. **Extração:** Ao carregar o ficheiro *carrier* no DeepSound, a aplicação detetou imediatamente a presença de ficheiros embebidos. Utilizando a função *Extract secret files*, extraiu-se o *payload* malicioso oculto para análise subsequente.
-
-*(Opcional: Adicionar imagens aqui)*
-<!-- ![OpenStego - Extração](assets/openstego_extract.png) -->
-<!-- ![DeepSound - Interface de Deteção](assets/deepsound_extract.png) -->
-
 ---
 
 ## 🧠 Conclusões de DFIR (Digital Forensics & Incident Response)
